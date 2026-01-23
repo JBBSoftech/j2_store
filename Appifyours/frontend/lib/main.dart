@@ -467,7 +467,7 @@ class MyApp extends StatelessWidget {
 // API Configuration - Auto-updated with your server details
 class ApiConfig {
   static String get baseUrl => Environment.apiBase;
-  static const String adminObjectId = 'ADMIN_OBJECT_ID_HERE'; // Will be replaced during publish
+  static const String adminObjectId = '6971dfc1fb8141714bc58538'; // Will be replaced during publish
   static const String appId = 'APP_ID_HERE'; // Will be replaced during publish
 }
 
@@ -526,7 +526,7 @@ class AdminManager {
   static Future<String?> _autoDetectAdminId() async {
     try {
       final response = await http.get(
-        Uri.parse('http://192.168.181.184:5000/api/admin/app-info'),
+        Uri.parse('http://192.168.254.184:5000/api/admin/app-info'),
         headers: {'Content-Type': 'application/json'},
       );
       
@@ -701,7 +701,7 @@ class _SignInPageState extends State<SignInPage> {
     try {
       final adminId = await AdminManager.getCurrentAdminId();
       final response = await http.post(
-        Uri.parse('http://192.168.181.184:5000/api/login'),
+        Uri.parse('http://192.168.254.184:5000/api/login'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'email': _emailController.text.trim(),
@@ -2885,3 +2885,38 @@ class _HomePageState extends State<HomePage> {
   }
 
 }
+  Widget _buildBottomNavigationBar() {
+    return BottomNavigationBar(
+      currentIndex: _currentPageIndex,
+      onTap: _onItemTapped,
+      type: BottomNavigationBarType.fixed,
+      selectedItemColor: Colors.blue,
+      unselectedItemColor: Colors.grey,
+      items: [
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.home),
+          label: 'Home',
+        ),
+        BottomNavigationBarItem(
+          icon: Badge(
+            label: Text('${_wishlistManager.items.length}'),
+            isLabelVisible: _wishlistManager.items.length > 0,
+            child: const Icon(Icons.favorite),
+          ),
+          label: 'Wishlist',
+        ),
+        BottomNavigationBarItem(
+          icon: Badge(
+            label: Text('${_cartManager.items.length}'),
+            isLabelVisible: _cartManager.items.length > 0,
+            child: const Icon(Icons.shopping_cart),
+          ),
+          label: 'Cart',
+        ),
+        const BottomNavigationBarItem(
+          icon: Icon(Icons.person),
+          label: 'Profile',
+        ),
+      ],
+    );
+  }
