@@ -244,7 +244,7 @@ app.get('/api/app-config', async (req, res) => {
   try {
     // This would connect to your main database to get latest configuration
     const config = {
-      adminId: '6971dfc1fb8141714bc58538',
+      adminId: '6971ded9fb8141714bc58524',
       shopName: 'j2 store ',
       lastUpdated: new Date().toISOString(),
       // Add dynamic configuration based on your app structure
