@@ -953,6 +953,82 @@ class ApiService {
     }
   }
 
+  // Store client product details in MongoDB
+  Future<Map<String, dynamic>> storeClientProductDetails(Map<String, dynamic> productDetails) async {
+    try {
+      print('=== API SERVICE: storeClientProductDetails ===');
+      print('Product details to store: $productDetails');
+      
+      final response = await post('/api/client-products-details', productDetails);
+
+      print('Response status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 201 || response.statusCode == 200) {
+        final data = json.decode(response.body);
+        print('✅ Product details stored successfully');
+        return {
+          'success': true,
+          'message': 'Product details stored successfully',
+          'data': data,
+        };
+      } else {
+        final error = json.decode(response.body);
+        print('❌ Failed to store product details: ${error['message'] ?? 'Unknown error'}');
+        return {
+          'success': false,
+          'message': error['message'] ?? 'Failed to store product details',
+          'error': error,
+        };
+      }
+    } catch (e, stackTrace) {
+      print('=== ERROR IN storeClientProductDetails ===');
+      print('Error: $e');
+      print('Stack trace: $stackTrace');
+      return {
+        'success': false,
+        'message': 'Failed to store product details: $e',
+      };
+    }
+  }
+
+  // Fetch client product details from MongoDB
+  Future<List<Map<String, dynamic>>> getClientProductDetails({String? adminId, String? userId}) async {
+    try {
+      print('=== API SERVICE: getClientProductDetails ===');
+      
+      String endpoint = '/api/client-products-details';
+      if (adminId != null) {
+        endpoint += '?adminId=$adminId';
+      } else if (userId != null) {
+        endpoint += '?userId=$userId';
+      }
+      
+      final response = await get(endpoint);
+
+      print('Response status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        if (data['success'] == true && data['data'] is List) {
+          final List<dynamic> products = data['data'];
+          print('✅ Retrieved ${products.length} product details');
+          return products.map<Map<String, dynamic>>((item) {
+            return Map<String, dynamic>.from(item);
+          }).toList();
+        }
+        return [];
+      } else {
+        final error = json.decode(response.body);
+        print('❌ Failed to fetch product details: ${error['message'] ?? 'Unknown error'}');
+        throw Exception(error['message'] ?? 'Failed to fetch product details');
+      }
+    } catch (e) {
+      print('❌ Exception in getClientProductDetails: $e');
+      throw Exception('Failed to fetch product details: $e');
+    }
+  }
 
 // Submit support request
   Future<Map<String, dynamic>> submitSupport({
