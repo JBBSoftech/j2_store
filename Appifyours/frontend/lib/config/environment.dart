@@ -1,3 +1,3 @@
 class Environment {
-  static const String apiBase = "http://192.168.176.184:5000";
+  static const String apiBase = "http://10.239.130.184:5000";
 }
