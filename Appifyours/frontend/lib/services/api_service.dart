@@ -993,16 +993,11 @@ class ApiService {
   }
 
   // Fetch client product details from MongoDB
-  Future<List<Map<String, dynamic>>> getClientProductDetails({String? adminId, String? userId}) async {
+  Future<List<Map<String, dynamic>>> getClientProductDetails() async {
     try {
       print('=== API SERVICE: getClientProductDetails ===');
       
-      String endpoint = '/api/client-products-details';
-      if (adminId != null) {
-        endpoint += '?adminId=$adminId';
-      } else if (userId != null) {
-        endpoint += '?userId=$userId';
-      }
+      const endpoint = '/api/client-products-details';
       
       final response = await get(endpoint);
 
