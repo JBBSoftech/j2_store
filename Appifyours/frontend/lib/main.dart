@@ -2261,6 +2261,47 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
+                  // Wishlist icon
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (isInWishlist) {
+                            _wishlistManager.removeFromWishlist(productId);
+                          } else {
+                            _wishlistManager.addToWishlist(productId, product);
+                          }
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(isInWishlist ? 'Removed from wishlist' : 'Added to wishlist'),
+                            duration: const Duration(seconds: 1),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.9),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Icon(
+                          isInWishlist ? Icons.favorite : Icons.favorite_border,
+                          color: isInWishlist ? Colors.red : Colors.grey,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ),
                   if (isSoldOut)
                     Positioned(
                       bottom: 8,
@@ -2352,6 +2393,48 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     const SizedBox(height: 4),
+                    // Add to Cart button
+                    Container(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: isSoldOut ? null : () {
+                          setState(() {
+                            _cartManager.addToCart(productId, product);
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Product added to cart!'),
+                              duration: const Duration(seconds: 2),
+                              action: SnackBarAction(
+                                label: 'VIEW CART',
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => _buildCartPage()),
+                                  );
+                                },
+                              ),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: isSoldOut ? Colors.grey : Colors.blue,
+                          foregroundColor: Colors.white,
+                          elevation: 2,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                        ),
+                        child: Text(
+                          isSoldOut ? 'SOLD OUT' : 'Add to Cart',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
