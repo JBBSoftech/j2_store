@@ -4,7 +4,7 @@ packages:
   flutter:
     sdk: flutter
     version: "0.0.0"
- 
+
 sdks:
   dart: ">=3.0.0 <4.0.0"
   flutter: ">=3.10.0"
