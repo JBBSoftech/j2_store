@@ -925,7 +925,7 @@ class ApiConfig {
 
   static String get baseUrl => Environment.apiBase;
 
-  static String get adminObjectId => 'ADMIN_OBJECT_ID_HERE'; // Will be replaced during publish
+  static String get adminObjectId => '6971dfc1fb8141714bc58538'; // Will be replaced during publish
 
   static String get appId {
     final raw = 'APP_ID_HERE';
@@ -1021,14 +1021,14 @@ class AdminManager {
 
     String adminId = ApiConfig.adminObjectId;
 
-    if (adminId == 'ADMIN_OBJECT_ID_HERE' || adminId.isEmpty) {
+    if (adminId == '6971dfc1fb8141714bc58538' || adminId.isEmpty) {
       final detected = await _autoDetectAdminId();
       if (detected != null && detected.isNotEmpty) {
         adminId = detected;
       }
     }
 
-    if (ApiConfig.adminObjectId != 'ADMIN_OBJECT_ID_HERE' && ApiConfig.adminObjectId.isNotEmpty) {
+    if (ApiConfig.adminObjectId != '6971dfc1fb8141714bc58538' && ApiConfig.adminObjectId.isNotEmpty) {
       assert(
         adminId == ApiConfig.adminObjectId,
         '❌ CRITICAL: Admin ID override detected',
@@ -1405,7 +1405,7 @@ class _SignInPageState extends State<SignInPage> {
 
       final response = await http.post(
 
-        Uri.parse('http://172.20.10.5:5000/api/login'),
+        Uri.parse('http://172.20.10.5:5000/api/user/login'),
 
         headers: {'Content-Type': 'application/json'},
 
@@ -1847,7 +1847,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
 
       final response = await http.post(
 
-        Uri.parse('${Environment.apiBase}/api/signup'),
+        Uri.parse('${Environment.apiBase}${DynamicApiConfig.signupEndpoint}'),
 
         headers: {'Content-Type': 'application/json'},
 
