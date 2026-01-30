@@ -468,7 +468,7 @@ class MyApp extends StatelessWidget {
 class ApiConfig {
   static String get baseUrl => Environment.apiBase;
   static const String adminObjectId = '6971dfc1fb8141714bc58538'; // Will be replaced during publish
-  static const String appId = 'APP_ID_HERE'; // Will be replaced during publish
+  static const String appId = '6971dfc1fb8141714bc58538'; // Will be replaced during publish
 }
 
 class SessionManager {
@@ -526,7 +526,7 @@ class AdminManager {
   static Future<String?> _autoDetectAdminId() async {
     try {
       final response = await http.get(
-        Uri.parse('https://appifyours.com/api/admin/app-info'),
+        Uri.parse('http://172.20.10.5:5000/api/admin/app-info'),
         headers: {'Content-Type': 'application/json'},
       );
       
@@ -701,7 +701,7 @@ class _SignInPageState extends State<SignInPage> {
     try {
       final adminId = await AdminManager.getCurrentAdminId();
       final response = await http.post(
-        Uri.parse('https://appifyours.com/api/login'),
+        Uri.parse('http://172.20.10.5:5000/api/login'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'email': _emailController.text.trim(),
