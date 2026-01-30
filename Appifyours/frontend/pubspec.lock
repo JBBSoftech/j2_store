@@ -2,7 +2,10 @@
 # See https://dart.dev/tools/pub/glossary#lockfile
 packages:
   flutter:
-    sdk: flutter
+    dependency: "direct main"
+    description:
+      sdk: flutter
+    source: sdk
     version: "0.0.0"
 
 sdks:
